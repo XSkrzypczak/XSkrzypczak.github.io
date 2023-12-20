@@ -1,0 +1,572 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Formula 1 - Sezon 2024</title>
+    <link rel="icon" href="f1.jpg" type="image/icon type">
+    <style>
+        html {
+            scroll-behavior: smooth;
+        }
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            color: #fff;
+        }
+
+        header {
+            background-color: #333;
+            color: #fff;
+            padding: 10px;
+            text-align: center;
+        }
+
+        nav {
+    background-color: #444;
+    padding: 10px;
+    text-align: center;
+    position: fixed;
+    width: 100%;
+    top: 0;
+    z-index: 1000;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    white-space: nowrap;
+    transition: top 0.3s ease-in-out;
+    flex-wrap: wrap;
+    width: calc(100% - 20px);
+    margin: 1 10px;
+}
+
+nav a {
+    color: #fff;
+    text-decoration: none;
+    cursor: pointer;
+    display: inline-block;
+    margin: 5px;
+    transition: margin 0.3s ease-in-out, font-size 0.3s ease-in-out;
+    font-size: 1vw; /* Ustawienie rozmiaru czcionki w jednostkach vw */
+}
+
+
+
+        section {
+            /*padding-top: 60px;  /*Ustawienie odpowiedniego odstępu od góry strony, aby nie zakrywało treści */
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+        }
+
+        .track {
+            border: 1px solid #00000000;
+            padding: 20px;
+            background-color: rgba(255, 255, 255, 0.452);
+            max-width: 75vw;
+            max-height: 100vh;
+            color: rgb(0, 0, 0)
+        }
+        footer {
+            background-color: #333;
+            color: #fff;
+            padding: 10px;
+            text-align: center;
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+        }
+        .mapael .mapTooltip {
+            position: absolute;
+            background-color: #fff;
+            opacity: 0.80;
+            filter: alpha(opacity=80);
+            border-radius: 4px;
+            padding: 10px;
+            z-index: 1000;
+            max-width: 200px;
+            display: none;
+            color: #232323;
+        }
+        
+        .mapael .map {
+            margin-right: 9px;
+            overflow: hidden;
+            position: relative;
+            border-radius: 10px;
+        }
+
+        /* For all zoom buttons */
+        .mapael .zoomButton {
+            background-color: #fff;
+            border: 1px solid #ccc;
+            color: #000;
+            width: 15px;
+            height: 15px;
+            line-height: 15px;
+            text-align: center;
+            border-radius: 3px;
+            cursor: pointer;
+            position: absolute;
+            top: 0;
+            font-weight: bold;
+            left: 10px;
+
+            -webkit-user-select: none;
+            -khtml-user-select : none;
+            -moz-user-select: none;
+            -o-user-select : none;
+            user-select: none;
+        }
+
+
+    </style>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js" charset="utf-8"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-mousewheel/3.1.13/jquery.mousewheel.min.js" charset="utf-8"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/raphael/2.2.7/raphael.min.js" charset="utf-8"></script>
+    <script src="../../js/jquery.mapael.js" charset="utf-8"></script>
+    <script src="../../js/maps/world_countries.js" charset="utf-8"></script>
+
+    <script type="text/javascript">
+        $(function () {
+            
+            var tracks = {
+                "paris": {
+                    latitude: 48.86,
+                    longitude: 2.3444444444444,
+                    tooltip: {
+                        content: "Paris"
+                    }
+                    
+                },
+                "melbourne": {
+                latitude: -37.8136,
+                longitude: 144.9631,
+                tooltip: {
+                    content: "Melbourne",
+                    },
+                href: "#melbourne"
+                },
+                "jeddah": {
+    latitude: 21.4225,
+    longitude: 39.8262,
+    tooltip: {
+        content: "Jeddah",
+    },
+    href: "#jeddah"
+},
+"suzuka": {
+    latitude: 34.8450,
+    longitude: 136.5411,
+    tooltip: {
+        content: "Suzuka",
+    },
+    href: "#suzuka"
+},
+"shanghai": {
+    latitude: 31.2304,
+    longitude: 121.4737,
+    tooltip: {
+        content: "Szanghaj",
+    },
+    href: "#shanghai"
+},
+"miami": {
+    latitude: 25.7617,
+    longitude: -80.1918,
+    tooltip: {
+        content: "Miami",
+    },
+    href: "#miami"
+},
+"imola": {
+    latitude: 44.3439,
+    longitude: 11.7167,
+    tooltip: {
+        content: "Imola",
+    },
+    href: "#imola"
+},
+"monaco": {
+    latitude: 43.7384,
+    longitude: 7.4246,
+    tooltip: {
+        content: "Monako",
+    },
+    href: "#monaco"
+},
+"montreal": {
+    latitude: 45.5017,
+    longitude: -73.5673,
+    tooltip: {
+        content: "Montreal",
+    },
+    href: "#montreal"
+},
+"barcelona": {
+    latitude: 41.3851,
+    longitude: 2.1734,
+    tooltip: {
+        content: "Barcelona",
+    },
+    href: "#barcelona"
+},
+"spielberg": {
+    latitude: 36.5828,
+    longitude: -121.8517,
+    tooltip: {
+        content: "Spielberg",
+    },
+    href: "#spielberg"
+},
+"silverstone": {
+    latitude: 52.0786,
+    longitude: -1.0169,
+    tooltip: {
+        content: "Silverstone",
+    },
+    href: "#silverstone"
+},
+"budapest": {
+    latitude: 47.4979,
+    longitude: 19.0402,
+    tooltip: {
+        content: "Budapeszt",
+    },
+    href: "#budapest"
+},
+"spa": {
+    latitude: 50.4372,
+    longitude: 5.9715,
+    tooltip: {
+        content: "Spa",
+    },
+    href: "#spa"
+},
+"zandvoort": {
+    latitude: 52.3883,
+    longitude: 4.5400,
+    tooltip: {
+        content: "Zandvoort",
+    },
+    href: "#zandvoort"
+},
+"monza": {
+    latitude: 45.6156,
+    longitude: 9.2811,
+    tooltip: {
+        content: "Monza",
+    },
+    href: "#monza"
+},
+"baku": {
+    latitude: 40.4093,
+    longitude: 49.8671,
+    tooltip: {
+        content: "Baku",
+    },
+    href: "#baku"
+},
+"singapore": {
+    latitude: 1.3521,
+    longitude: 103.8198,
+    tooltip: {
+        content: "Singapur",
+    },
+    href: "#singapore"
+},
+"austin": {
+    latitude: 30.2500,
+    longitude: -97.7500,
+    tooltip: {
+        content: "Austin",
+    },
+    href: "#austin"
+},
+"mexico": {
+    latitude: 19.4326,
+    longitude: -99.1332,
+    tooltip: {
+        content: "Meksyk",
+    },
+    href: "#mexico"
+},
+"sao_paulo": {
+    latitude: -23.5505,
+    longitude: -46.6333,
+    tooltip: {
+        content: "São Paulo",
+    },
+    href: "#sao_paulo"
+},
+"las_vegas": {
+    latitude: 36.1699,
+    longitude: -115.1398,
+    tooltip: {
+        content: "Las Vegas",
+    },
+    href: "#las_vegas"
+},
+"doha": {
+    latitude: 25.2769,
+    longitude: 51.5200,
+    tooltip: {
+        content: "Doha",
+    },
+    href: "#doha"
+},
+"abu_dhabi": {
+    latitude: 24.4667,
+    longitude: 54.3667,
+    tooltip: {
+        content: "Abu Dhabi",
+    },
+    href: "#abu_dhabi"
+},
+
+
+                
+            };
+
+            var getElemID = function(elem) {
+                // Show element ID
+                return $(elem.node).attr("data-id");
+            };
+
+            $(".mapcontainer").mapael({
+                map: {
+                    name: "world_countries",
+                    defaultPlot: {
+                        size: 7
+                    }
+                },
+                plots: tracks
+            });
+        });
+    </script>
+</head>
+<body>
+
+    <nav>
+        <a href="#map">Mapa</a>
+        
+    </nav>
+
+
+    <section id="map">
+    <div class="mapcontainer" style="width: 100vw; height: 100vh; background-image: url('background.jpg'); background-size: cover; background-position: center; background-attachment: fixed;">
+    <h1>.</h1>
+    <h1>Formula 1 - Tory - Sezon 2024</h1>
+    <div class="mapcontainer">
+        <div class="map" content="width=device-width, initial-scale=.0">
+   
+        </div>
+    </div>
+</section>
+
+<section id="melbourne" style="background-image: url('melbourne.jpg');">
+    <div class="track">
+        <h1>Melbourne</h1>
+        <h3>Kiedy powstał tor?</h3>
+        <p>Umowa na organizację Formuły 1 w Melbourne została zawarta w 1993 r. wraz z podjętą decyzją o utworzeniu toru wykorzystującego mieszankę istniejących dróg wokół miejskiego Albert Park – głównie Aughtie Drive i Lakeside Drive, jeśli masz ochotę pojeździć nim samodzielnie – objazd przez parking stadionu Lakeside.</p>
+        <h3>Kiedy odbyło się pierwsze Grand Prix?</h3>
+        <p>Zaledwie cztery miesiące po ostatnim Grand Prix Australii w Adelaide pod koniec 1995 r. zespoły Formuły 1 wróciły do Australii na pierwsze Grand Prix Melbourne na początku 1996 r. Wyścig ten jest najczęściej pamiętany ze względu na niesławny wypadek Martina Brundle’a w Jordanie na zakręcie 3 po tym, jak wystrzelił z tyłu Saubera Johnny'ego Herberta.</p>
+        <h3>Jaki jest tor?</h3>
+        <p>Jako obiekt tymczasowy Albert Park może być dość wyboisty - chociaż odnowienie nawierzchni na rok 2024 bez wątpienia poprawi sytuację - tor na początku weekendu jest często śliski i w miarę postępu sesji się nagumowuje. Jest to także tor wymagający dobrze dobranego podwozia, z kilkoma punktami na torze, gdzie kierowcy potrzebują reaktywnego przodu, aby móc odpowiednio szybko wejśc w zakręt. Melbourne to także jeden z szybszych torów w kalendarzu. Lewis Hamilton w 2019 r. uzyskał tutaj średnią prędkość ponad 235 km/h.</p>
+        <h3>Dlaczego warto?</h3>
+        <p>Melbourne, często umieszczane na listach najlepszych miast świata, zachwyca przez cały rok - a jest jeszcze lepiej, gdy do miasta wkracza Formuła 1. Jest tu mnóstwo barów i restauracji, jesteś tuż przy plaży, a pojawienie się wyścigu na początku australijskiej jesieni oznacza, że ​​temperatury powinny być wysokie.</p>
+        <h3>Gdzie najlepiej oglądać?</h3>
+        <p>Jeśli chcesz wejść na trybunę, wybierz trybunę Waite'a z widokiem na zakręt nr 10 lub trybunę Brabham na zewnątrz zakrętu nr 2, aby obserwować samochody przepychające się o pozycje w pierwszej szykanie. Alternatywnie, po drugiej stronie jeziora znajduje się kilka ładnych miejsc – wybierz pomiędzy zakrętami 8-9 lub 9-10, jeśli masz ochotę na piknik z F1. </p>
+
+    </div>
+</section>
+<section id="jeddah" style="background-image: url('jeddah.jpg');">
+    <div class="track">
+        <h1>Jeddah</h1>
+        <h2>Kiedy powstał tor?</h2>
+<p>Tor Jeddah Corniche to tymczasowy tor uliczny (z kilkoma stałymi odcinkami) położony na Corniche - 30-kilometrowym nadmorskim kurorcie starożytnego miasta Jeddah w Arabii Saudyjskiej. Zaprojektowany przez firmę Tilke we współpracy z zespołem Motorsports Formuły 1, który korzystał z Google Earth do wstępnych badań nad potencjalnymi układami.</p>
+
+<h2>Kiedy odbyło się pierwsze Grand Prix?</h2>
+<p>Inauguracyjne Grand Prix Arabii Saudyjskiej miało miejsce w 2021 r., a wyścig dołączył do swoich odpowiedników na Bliskim Wschodzie w Bahrajnie i Abu Zabi - chociaż podobnie jak te wyścigi, Grand Prix Arabii Saudyjskiej również odbywa się przy świetle reflektorów.</p>
+
+<h2>Jaki jest tor?</h2>
+<p>Bardzo szybki. Średnie prędkości na torze Jeddah Corniche wynoszą około 250 km/h - to więcej niż na Silverstone i drugie w kalendarzu 2021 za jedynie Monzą - czyli „Świątynia Prędkości”. Jest to po prostu najszybszy tor uliczny, jaki kiedykolwiek widziano w Formule 1 – na torze znajduje się także najwięcej zakrętów w kalendarzu – 27, wiele z nich to szybkie i kręte zakręty, gdy kierowcy jadą wzdłuż nabrzeża Jeddah.</p>
+
+<h2>Dlaczego warto?</h2>
+<p>Grand Prix Arabii Saudyjskiej zapowiada skąpany w słońcu festiwal Formuły 1, który odbędzie się na niezwykłym odcinku wybrzeża królestwa. Akcja na torze jest oszałamiająca, gdy kierowcy oswajają się z tym szybkim torem ulicznym, a samo Jeddah ożywa, gdy miasto gości grand prix Formuły 1.</p>
+
+<h2>Gdzie najlepiej oglądać?</h2>
+<p>Średnie prędkości na torze Jeddah Corniche są takie, że każda trybuna zapewnia spektakularne miejsce do oglądania. Niemniej jednak splendor trybuny otaczającej pochyły róg zakrętu nr 13 sprawia, że ​​jest to wyjątkowe miejsce dla fanów F1.</p>
+
+    </div>
+</section>
+
+
+
+    <section id="monaco" style="background-image: url('monaco.jpg');">
+        <div class="track">
+            <h1>Monako</h1>
+            <h2>Kiedy zbudowano tor?</h2>
+            <p>Mniej więcej w 1215 roku - wtedy Monako zostało założone jako kolonia Genui.</p>
+            <h2>Kiedy odbyło się pierwsze Grand Prix?</h2>
+            <p>Był rok 1929, kiedy silniki wyścigowe po raz pierwszy rozbrzmiały w Księstwie, po tym jak producent papierosów Antony Noghes postanowił zorganizować wyścig ze swoimi kolegami z Automobile Club de Monaco. Wyścig stał się częścią kalendarza w pierwszym roku Mistrzostw Świata Formuły 1 w 1950 roku i nie zniknął z niego od 1955 roku.</p>
+            <h2>Jak wygląda tor?</h2>
+            <p>Niesamowicie wąski i całkowicie kultowy. Nelson Piquet pamiętnie opisał jazdę po Monako jako "jak jazdę na rowerze po swoim salonie"... co jest uczciwe. Mimo to jest to wyzwanie, które uwielbiają prawie wszyscy kierowcy, zmuszając ich do wykorzystania swoich umiejętności i nagradzając milimetrową dokładność. Wyprzedzanie na ciasnych ulicach jest jednak trudniejsze, a Grand Prix 2003 było świadkiem w sumie zerowej liczby wyprzedzeń!</p>
+            <h2>Dlaczego warto?</h2>
+            <p>Wakacje na Riwierze Francuskiej plus możliwość oglądania bolidów Formuły 1 przejeżdżających obok miejsc, w których mieszkańcy Monako zwykle robią zakupy? To naprawdę jest tak zabawne, jak brzmi. Co więcej, nie można przegapić okazji do spaceru po torze po całym dniu jazdy - a nawet zjedzenia na nim kolacji w jednym z barów na tarasie.</p>
+            <h2>Gdzie najlepiej oglądać?</h2>
+            <p>Zakładając, że nie możesz dostać się do jednego z wiszących bloków mieszkalnych wokół toru (lub na łódź), wybierz cokolwiek z trybun od L do P, które są skupione wokół sekcji Swimming Pool toru i gdzie kierowcy ścigają się swoimi samochodami przez ciasną szykanę z prędkością 200 km/h. Lub, dla bardziej spektakularnego widoku, spróbuj trybunę B, z widokiem na luksusowy Casino Square.</p>
+        </div>
+    </section>
+
+    <section id="suzuka" style="background-image: url('suzuka.jpg');">
+        <div class="track">
+            <h1>Suzuka</h1>
+            <h2>Kiedy zbudowano tor?</h2>
+            <p>W 1962 roku. Soichiro Honda, człowiek z wielkimi ambicjami, postanowił przekształcić Hondę w motoryzacyjną potęgę. Zlecił Holendrowi Johnowi Hugenholtzowi zaprojektowanie własnego toru testowego. Wynikiem było kultowe już "crossover" Suzuka, choć oryginalne rysunki zakładały, że tor miał przechodzić nad i pod sobą aż trzy razy.</p>
+    
+            <h2>Kiedy odbyło się pierwsze Grand Prix?</h2>
+            <p>Pomimo tego, że Suzuka jest uznawana za jedną z najlepszych tras, pojawiła się względnie późno w kalendarzu F1, debiutując w 1987 roku. Nigel Mansell z pewnością pamięta tamten weekend, gdy uległ wypadkowi w kwalifikacjach, co przekreśliło jego szanse na tegoroczne mistrzostwo.</p>
+    
+            <h2>Jaki jest ten tor?</h2>
+            <p>Suzuka to szybki tor, który pozostaje jednym z największych wyzwań dla kierowców. Kręte zakręty "S", nagradzające zaangażowanie Degnery i ekscytująca jazda 130R - to wszystko czyni go jednym z najważniejszych torów F1. A poza tym, ma crossover, co zawsze dodaje uroku, prawda?</p>
+    
+            <h2>Dlaczego warto?</h2>
+            <p>Tor, który był świadkiem niesprawiedliwego udziału w legendarnych momentach F1. Wspaniała atmosfera, diabelski młyn i pyszne jedzenie. Mimo że podróż może być długa, to lepsze pytanie brzmi: "Dlaczego nie pojechać?"</p>
+    
+            <h2>Gdzie najlepiej oglądać?</h2>
+            <p>Wybierz sam. Trybuny D i E wychodzą na zakręty "S", oferując niesamowitą szansę na obserwowanie siły docisku i zaangażowania kierowców podczas pokonywania krętych zakrętów. Lewa strona trybuny G zapewnia widok na wewnętrzną stronę 130R, co stanowi nie lada gratkę. Jeśli zależy ci na wyprzedzaniu, trybuna I zapewni widok na przyciągającą incydenty szykanę.</p>
+        </div>
+    </section>
+    
+    <section id="shanghai" style="background-image: url('shanghai.jpg');">
+        <div class="track">
+            <h1>Szanghaj</h1>
+            <h2>Kiedy zbudowano tor?</h2>
+            <p>W kwietniu 2003 r. bagna w dzielnicy Jiading w Szanghaju zostały przeznaczone pod budowę toru Formuły 1. Osiemnaście miesięcy i około 450 milionów dolarów później najnowocześniejszy tor Shanghai International Circuit był gotowy.</p>
+    
+            <h2>Kiedy odbyło się pierwsze Grand Prix?</h2>
+            <p>W sezonie 2004 odbyły się dwa nowe wyścigi, z których jednym było Grand Prix Chin (drugim Bahrajn). Michael Schumacher wygrał w Bahrajnie, a Rubens Barrichello triumfował w Chinach.</p>
+    
+            <h2>Jaki jest tor?</h2>
+            <p>Przyjemny kształt toru widziany z lotu ptaka - zaprojektowany tak, aby przypominał chiński symbol "shang", oznaczający górę. Zakręty 7 i 8 cieszą kierowców dużą siłą przeciążenia, a jedna z najdłuższych prostych w kalendarzu dzieli zakręty 13-14.</p>
+    
+            <h2>Dlaczego warto tam pojechać?</h2>
+            <p>Szanghaj stał się jednym z najbardziej dynamicznych miast na świecie, co czyni go niesamowitym przystankiem turystycznym F1. Dzielnica Pudong pełna jest modnych barów i niesamowitych restauracji. Łatwo dostępny dzięki szanghajskiemu metru.</p>
+    
+            <h2>Gdzie najlepiej oglądać?</h2>
+            <p>Polecamy trybunę K, z widokiem na zakręt 14-15, dla najlepszego miejsca do oglądania wyprzedzania. Alternatywnie, Zakręt 6 to dobre miejsce do obserwowania wyprzedzania na torze.</p>
+        </div>
+    </section>
+    <section id="miami" style="background-image: url('miami.jpg');">
+        <div class="track">
+            <h1>Miami</h1>
+            <h2>Kiedy zbudowano tor?</h2>
+            <p>International Autodrom Miami, który zadebiutował w F1 w maju 2022 roku, jest torem tymczasowym, ale zaprojektowanym z myślą o trwałości. Zlokalizowany w kompleksie Hard Rock Stadium w Miami Gardens, siedzibie słynnej franczyzy NFL Miami Dolphins, tor jest zwieńczeniem procesu rozwoju, który symulował nie mniej niż 36 różnych układów.</p>
+    
+            <h2>Kiedy odbyło się pierwsze Grand Prix?</h2>
+            <p>Inauguracyjne Grand Prix Miami odbyło się w 2022 roku, a wyścig na Florydzie dołączył do swojego teksańskiego odpowiednika w Austin, stając się drugim amerykańskim wyścigiem w kalendarzu - i 11. amerykańskim obiektem, który gościł rundę mistrzostw świata Formuły 1.</p>
+    
+            <h2>Jak wygląda tor?</h2>
+            <p>Na 5,41-kilometrowym torze, którego epicentrum stanowi Hard Rock Stadium, znajduje się 19 zakrętów, trzy proste, trzy strefy DRS, a maksymalna prędkość wynosi ponad 340 km/h. Zmiany wysokości, szykana na zakrętach 14-15 i inne elementy sprawiają, że tor jest ekscytujący dla kierowców.</p>
+    
+            <h2>Dlaczego warto?</h2>
+            <p>Hard Rock Stadium to doskonale znane miejsce dla widowisk sportowych, a samo Miami oferuje wyjątkową atmosferę, plaże, klimat art deco, wielokulturowość i bogate dziedzictwo sportowe. To niezbędne miejsce dla miłośników motorsportu i entuzjastów życia nocnego.</p>
+    
+            <h2>Gdzie jest najlepsze miejsce do oglądania?</h2>
+            <p>Oglądając wydarzenie sportowe na specjalnie wybudowanym stadionie, trudno się pomylić. Miejsca w pobliżu zakrętów 1, 11 lub 17 powinny zapewnić ci miejsce w samym centrum akcji.</p>
+        </div>
+    </section>
+    <section id="imola" style="background-image: url('imola.jpg');">
+        <div class="track">
+            <h1>Imola</h1>
+            <h2>Kiedy zbudowano tor?</h2>
+            <p>Imola - lub Autodromo Internazionale Enzo e Dino Ferrari, jak jest znany od 1988 roku - miała swój początek w marcu 1950 roku. Tor był gotowy do testów w październiku 1952 roku, a wyścigi rozpoczęły się na nim w 1953 roku.</p>
+    
+            <h2>Kiedy odbyło się pierwsze Grand Prix?</h2>
+            <p>Imola po raz pierwszy gościła nie-mistrzowski wyścig F1 w 1963 roku, ale do 1980 roku musiało dojść do negocjacji z Monzą, zanim tor otrzymał zaszczyt goszczenia Grand Prix Włoch. Od 1981 roku Imola przejęła słynny tytuł "San Marino" i gościła w sumie 27 Grand Prix do 2006 roku, powracając jako miejsce Grand Prix Emilii-Romanii w 2020 roku.</p>
+    
+            <h2>Jaki jest ten tor?</h2>
+            <p>Tor Imola, w kierunku przeciwnym do ruchu wskazówek zegara, jest szybki, z oldschoolową atmosferą, gdy kierowcy pokonują kultowe zakręty, takie jak Acque Minerali i Piratella.</p>
+    
+            <h2>Dlaczego warto?</h2>
+            <p>Imola położona jest w fantastycznej części świata, z toskańskimi wzgórzami na południu, adriatyckimi plażami na wschodzie i gastronomicznymi przysmakami miast takich jak Bolonia, Parma i Modena na zachodzie. To także miejsce hołdu dla Ayrtona Senny i Rolandem Ratzenbergera, którzy stracili życie w tragicznych wypadkach podczas Grand Prix San Marino w 1994 roku.</p>
+    
+            <h2>Gdzie jest najlepsze miejsce do oglądania?</h2>
+            <p>Trybuny po zewnętrznej stronie Acque Minerali to świetne miejsce, aby zobaczyć, jak maszyna F1 jest doprowadzana do absolutnych granic możliwości, gdy kierowcy walczą o rozpędzenie bolidów do ciasnego prawego zakrętu, a następnie pędzą z powrotem pod górę do szykany Variante Alta.</p>
+        </div>
+    </section>
+    <section id="montreal" style="background-image: url('montreal.jpg');">
+        <div class="track">
+            <h1>Montreal</h1>
+            <h2>Kiedy zbudowano tor?</h2>
+            <p>Stworzona przez człowieka wyspa Notre Dame na środku Rzeki Świętego Wawrzyńca została stworzona na potrzeby Światowych Targów Expo 67 w 1967 roku. Circuit Ile Notre-Dame powstał po zakończeniu wystawy i Letnich Igrzysk Olimpijskich w Montrealu w 1976 roku.</p>
+    
+            <h2>Kiedy odbyło się pierwsze Grand Prix?</h2>
+            <p>Circuit Ile Notre-Dame po raz pierwszy gościł wyścig Grand Prix Kanady w 1978 roku. To właśnie tam Gilles Villeneuve odniósł swoje pierwsze zwycięstwo, a tor ostatecznie nosi jego imię.</p>
+    
+            <h2>Jaki jest ten tor?</h2>
+            <p>Circuit Gilles-Villeneuve to szybki tor o niskiej sile docisku, który cieszy się uznaniem kierowców. Tor jest stop-startowy z mocno hamującymi szykanami i słynną nawrotką, a najbardziej kultowym elementem jest Ściana Mistrzów, nazwana tak po wypadkach Hill, Villeneuve'a i Schumachera w 1999 roku.</p>
+    
+            <h2>Dlaczego warto tam pojechać?</h2>
+            <p>Montreal staje się imprezowym miastem kochającym F1 w tygodniu poprzedzającym wyścig. Zielone otoczenie sprawia, że Circuit Gilles-Villeneuve jest jednym z najbardziej wyluzowanych obiektów Formuły 1. To także miejsce, gdzie Kubica zdobył swoje jedyne zwycięstwo w 2008 roku.</p>
+    
+            <h2>Gdzie jest najlepsze miejsce do oglądania?</h2>
+            <p>Wybierz jedną z trybun 15, 21 lub 24, aby cieszyć się amfiteatralną atmosferą i obserwować wyprzedzania na zakrętach.</p>
+        </div>
+    </section>
+    <section id="barcelona" style="background-image: url('barcelona.jpg');">
+        <div class="track">
+            <h1>Barcelona</h1>
+            <h2>Kiedy zbudowano tor?</h2>
+            <p>Circuit de Barcelona-Catalunya został zbudowany w ramach programu rozwoju Igrzysk Olimpijskich w Barcelonie w 1992 roku. Kamień węgielny położono w 1989 roku, a pierwszym wyścigiem samochodowym była runda Hiszpańskich Mistrzostw Samochodów Turystycznych w 1991 roku.</p>
+    
+            <h2>Kiedy odbyło się pierwsze Grand Prix?</h2>
+            <p>Dwa tygodnie po wyścigach samochodów turystycznych w Barcelonie przyszła kolej na Formułę 1. Tor cieszył się sensacyjnym debiutem, ze słynnym wyścigiem Nigela Mansella i Ayrtona Senny na prostej, zanim Mansell objął prowadzenie i pojechał po zwycięstwo.</p>
+    
+            <h2>Jaki jest ten tor?</h2>
+            <p>Kierowcy uwielbiają tor Circuit de Barcelona-Catalunya, co jest bardzo dobre, ponieważ tradycyjnie spędzają na nim dużo czasu podczas zimowych testów. Tor jest dobrą mieszanką zakrętów o dużej i małej prędkości, a wymagający prawy zakręt nr 3 jest świetną okazją do oceny balansu samochodu, który projektanci zespołu wystawili do walki w tym sezonie.</p>
+    
+            <h2>Dlaczego warto tam pojechać?</h2>
+            <p>Barcelona to jedno z najwspanialszych miast na świecie - pełne jedzenia, kultury i pięknych plaż. Wyjazd na Grand Prix Hiszpanii to nie tylko ściganie się, ale także możliwość zwiedzania tego urokliwego miejsca.</p>
+    
+            <h2>Gdzie jest najlepsze miejsce do oglądania?</h2>
+            <p>Masz duży wybór, ponieważ prawie cały tor jest otoczony trybunami lub strefami dla widzów. Po zewnętrznej stronie Zakrętu 1, trybuna A pozwoli ci zobaczyć najlepsze miejsce do wyprzedzania na torze, podczas gdy ogólna strefa wstępu wokół Zakrętu 3 zapewni niesamowity widok bolidów Formuły 1, które są rozpędzane do granic ich możliwości.</p>
+        </div>
+    </section>
+    
+
+    <!-- Dodaj kolejne sekcje dla innych torów -->
+
+    <script>
+
+        // Dodaj obsługę zdarzeń dla kliknięcia w linki
+        document.addEventListener('DOMContentLoaded', function() {
+            const links = document.querySelectorAll('header a');
+
+            links.forEach(function(link) {
+                link.addEventListener('click', function(event) {
+                    event.preventDefault();
+
+                    const targetId = this.getAttribute('href').substring(1);
+                    const targetSection = document.getElementById(targetId);
+
+                    if (targetSection) {
+                        targetSection.scrollIntoView({ behavior: 'smooth' });
+                    }
+                });
+            });
+        });
+    </script>
+    <footer>
+        Autor: Mikołaj Skrzypczak i Adrian Ruszczyński
+    </footer>
+</body>
+</html>
