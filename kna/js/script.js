@@ -1,5 +1,4 @@
-//const hn = now.getHours();
-hn = 13;
+const hn = now.getHours();
 const mn = now.getMinutes();
 const day = now.getDay();
 var selection = document.getElementById('selection');
