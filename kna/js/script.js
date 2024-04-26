@@ -220,9 +220,17 @@ function closeWindow() {
   }
 }
 function showLineImg(){
+  if(line.value == "1"){
+    lineImg.src = "img/linia1a.png";
+  }
+  else if(line.value == "2"){
+    lineImg.src = "img/linia2a.png";
+  }
+  else if(line.value == "3"){
+    lineImg.src = "img/linia3a.png";
+  }
   lineModal.style.display = "block";
   closeLineBtn.addEventListener('click', closeLine);
-  
 }
 function closeLine(){
   lineModal.style.display = "none";
@@ -309,7 +317,6 @@ direction.addEventListener('change', busStopChanged);
 checkWholeButton.addEventListener('click', checkWhole);
 checkLineButton.addEventListener('click', showLineImg);
 
-/*
 function openNav() {
   document.getElementById("menusidenav").style.width = "100%";
 }
@@ -371,4 +378,3 @@ function openNavAbout() {
 function closeNavAbout() {
   document.getElementById("aboutsidenav").style.width = "0";
 }
-*/
