@@ -1,8 +1,249 @@
 <!DOCTYPE html>
-<html>
-  <head>
-  
-  </head>
-  <body>
-    <a href="/F1/index.html">Projekt na geografię - F1</a>
+<html lang="pl-PL">
+	<head>
+		<!-- Global site tag (gtag.js) - Google Analytics -->
+		<script async src="https://www.googletagmanager.com/gtag/js?id=UA-120286908-1"></script>
+		<script>
+  			window.dataLayer = window.dataLayer || [];
+  			function gtag(){dataLayer.push(arguments);}
+  			gtag('js', new Date());
+  			gtag('config', 'UA-120286908-1');
+		</script>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<meta name="msapplication-TileColor" content="#222222">
+		<meta name="msapplication-TileImage" content="img/ms-icon-144x144.png">
+		<meta name="theme-color" content="#222222">
+		<link rel="stylesheet" type="text/css" href="css/reset.css">
+		<link rel="stylesheet" type="text/css" href="css/style.css">
+		<link rel="apple-touch-icon" sizes="57x57" href="img/apple-icon-57x57.png">
+		<link rel="apple-touch-icon" sizes="60x60" href="img/apple-icon-60x60.png">
+		<link rel="apple-touch-icon" sizes="72x72" href="img/apple-icon-72x72.png">
+		<link rel="apple-touch-icon" sizes="76x76" href="img/apple-icon-76x76.png">
+		<link rel="apple-touch-icon" sizes="114x114" href="img/apple-icon-114x114.png">
+		<link rel="apple-touch-icon" sizes="120x120" href="img/apple-icon-120x120.png">
+		<link rel="apple-touch-icon" sizes="144x144" href="img/apple-icon-144x144.png">
+		<link rel="apple-touch-icon" sizes="152x152" href="img/apple-icon-152x152.png">
+		<link rel="apple-touch-icon" sizes="180x180" href="img/apple-icon-180x180.png">
+		<link rel="icon" type="image/png" sizes="192x192"  href="img/android-icon-192x192.png">
+		<link rel="icon" type="image/png" sizes="32x32" href="img/favicon-32x32.png">
+		<link rel="icon" type="image/png" sizes="96x96" href="img/favicon-96x96.png">
+		<link rel="icon" type="image/png" sizes="16x16" href="img/favicon-16x16.png">
+		<link rel="manifest" href="/manifest.json">
+		<title>Rozkład - Komunikacja Miejska Kościerzyna</title>
+	</head>
+	<body>
+		<div class="menu container">
+			<h3 onclick="openNav()">menu</h3>
+		</div>
+		<header class="name container">
+			<h1>rozkład jazdy</h1>
+			<img src="img/logo.png" alt="logo autobus pod lipą">
+			<h2>Komunikacji Miejskiej</h2>
+			<h2>w Kościerzynie</h2>
+		</header>
+		<main class="container">
+			<section class="check">
+				<h2 id="guide">Wybierz swój przystanek, linię i kierunek</h2>
+				<div class="choice">
+					<select id="selection">
+						<option value = "null">Wybierz przystanek</option>
+						<option value = "pkp">Dworzec PKP</option>
+						<option value = "szpital">Szpital</option>
+						<option value = "malcuzynskiego">Małcużyńskiego</option>
+						<option value = "szydlice">Skłodowskiej(Delikatesy)</option>
+						<option value = "konopnickiej">Skłodowskiej(Szóstka)</option>
+						<option value = "rozana">Skłodowskiej(przychodnia)</option>
+						<option value = "sikorskiego">Sikorskiego</option>
+						<option value = "strzelecka">Strzelecka</option>
+						<option value = "rogali">Rogali</option>
+						<option value = "marchewicza">Marchewicza(bloki)</option>
+						<option value = "bolewskiej">Marchewicza(Bolewskiej)</option>
+						<option value = "szkolna">Szkolna</option>
+						<option value = "heykego">Heykego</option>
+						<option value = "kartuska">Kartuska</option>
+						<option value = "szopinskiego">Szopińskiego</option>
+						<option value = "maja">Dworcowa(3-maja)</option>
+						<option value = "dworcowa">Dworcowa(Sędzickiego)</option>
+						<option value = "staszica">Staszica</option>
+						<option value = "marca">8 marca(szkoła Jedynka)</option>
+						<option value = "galeria">Galeria Wybickiego</option>
+						<option value = "mlynska">Młyńska</option>
+						<option value = "kapliczna">Kapliczna</option>
+						<option value = "skarszewska">Skarszewska</option>
+						<option value = "matejki">Matejki</option>
+						<option value = "michalowskiego">Dworcowa(Michałowskiego)</option>
+						<option value = "kossaka">Matejki(Kossaka)</option>
+						<option value = "tatarkiewicza">W.Stwosza(Tatarkiewicza)</option>
+						<option value = "michalowicza">W.Stwosza(Michałowicza)</option>
+						<option value = "stwoszatowarowa">W.Stwosza(Towarowa)</option>
+						<option value = "przemyslowa">Przemysłowa II</option>
+						<option value = "towarowa">Towarowa</option>
+						<option value = "rolnicza">Towarowa(Rolnicza)</option>
+					</select>
+					<select id="direction">
+						<option value = "null">Wybierz kierunek</option>
+						<option value = "pkp">Dworzec PKP</option>
+						<option value = "szpital">Szpital</option>
+					</select>
+					<select id="line">
+						<option>Linia x</option>
+					</select>
+				</div>
+			</section>
+			<div class="result" id="result">
+				<div class="time">
+				  <h3 class="other_bus">Poprzedni odjazd:</h3>
+				  <h2 id="previous_bus" class="other_time"></h2>	
+				</div>
+				<div class="time" >
+				  <h3 class="current_bus">Najbliższy odjazd:</h3>
+				  <h2 id="your_bus" class="main_time"></h2>	
+				  <p id="period"></p>	
+				</div>
+				<div class="time">
+				  <h3 class="other_bus">Kolejny odjazd:</h3>
+				  <h2 id="next_bus" class="other_time"></h2>	
+				</div>
+			  </div>
+			  <div id="whole_timetable" class="whole">	
+				<button id="check_whole">Pokaż cały rozkład tego przystanku</button>
+				<button id="check_line">Pokaż mapę lini</button>
+			</div>
+			<div id="timetable_modal" class="modal">
+				<span class="close" id="close_modal">&times;</span>
+				<div id="modal_content">
+					<div id="busses_list" class="bus_list">
+						<h3 id="busses_header"></h3>
+					</div>
+				</div>
+			</div>
+			<div id="line_modal" class="modal">
+				<span class="close" id="close_line">&times;</span>
+				<img src="img/linia1a.png" id="line_img" class="line_img">
+			</div>
+
+		<footer>
+			</11><p>Strona wykonana przez Mikołaja Skrzypczaka na podstawie <a href="https://arturrymsza.github.io/km_koscierzyna/">strony pana Artura Rymszy</a></p>
+		</footer>
+		<div id="menusidenav" class="sidenav_menu">
+			<a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
+			<div class="sidenav linesnav">
+				<span onclick="openNavTrasy()">Trasy i mapy linii</span>
+				<span onclick="openNavPdf()">Rozkład pdf</span>
+				<span onclick="openNavAbout()">O projekcie</span>
+			</div>
+		</div>
+		<div id="linessidenav" class="sidenav_lines">
+			<a href="javascript:void(0)" class="closebtn" onclick="closeNavTrasy()">&times;</a>
+			<ul class="sidenav linesnav">
+				<li>Wybierz linię:</li>
+				<li onclick="openNav1()" class="line_route">Linia nr 1</li>
+				<li class="line_route" onclick="openNav2()">Linia nr 2</li>
+				<li class="line_route" onclick="openNav3()">Linia nr 3</li>
+			</ul>
+		</div>
+		<div id="pdfsidenav" class="sidenav_pdf">
+			<a href="javascript:void(0)" class="closebtn" onclick="closeNavPdf()">&times;</a>
+			<div class="sidenav linesnav">
+				<h4>pobierz rozkład PDF:</h4>
+				<span><a href="https://www.miastokoscierzyna.pl/asp/rozklad-jazdy-komunikacji-miejskiej,181,,1">Rozkłady wszystkich lini na stronie miasta.</a></span>
+			</div>
+		</div>
+		<div id="aboutsidenav" class="sidenav_about">
+			<a href="javascript:void(0)" class="closebtn" onclick="closeNavAbout()">&times;</a>
+			<div class="about container">
+				<h4>O projekcie</h4>
+				<p>Pomysł na stworzenie aplikacji webowej - interaktywnego rozkładu jazdy
+				komunikacji miejskiej w Kościerzynie zrodził się z potrzeby szybkiego
+				sprawdzenia rozkładu jazdy przeze mnie i moich bliskich. Pomyślałem, że taka aplikacja przyda się wszystkim, którzy chcą skorzystać z komunikacji miejskiej w Kościerzynie. Jako, że zajmuję się tworzeniem stron internetowych i aplikacji webowych, a jednocześnie interesuję się hobbystycznie transportem publicznym, wiąłem się do pracy, której owoce możecie właśnie oceniać.
+				Na stronie możecie sprawdzić zarówno kiedy odjeżdża wasz najbliższy autobus, jak
+				i zobaczyć cały rozkład z wybranego przystanku, w wybranym kierunku. W menu
+				jest też możliwość sprawdzenia przebiegu poszczególnych linii oraz pobrania
+				oficjalnego rozkładu jazdy w formacie pdf ze strony Miasta Kościerzyna.
+				Projekt powstał całkowicie społecznie - pro publico bono.
+				Zachęcam do korzystania, zarówno z rozkładu, jak i z moich usług w zakresie tworzenia
+				stron internetowych i aplikacji webowych.
+				Pozdrawiam,
+				Artur Rymsza
+				Wytvórnia Kreatywna</p>
+			</div>
+		</div>
+		<div id="line1sidenav" class="sidenav_1">
+			<a href="javascript:void(0)" class="closebtn" onclick="closeNav1()">&times;</a>
+			<div class="line_plate">
+				<h4 class="line_name">Linia nr 1</h4>
+			</div>
+			<div class="route">
+				<img src="img/linia1a.png" alt="mapa trasy lini 1">
+				<ul class="sidenav">
+					<li class="main_stop">Dworzec PKP</li>
+					<li>Dworcowa (Michałowskiego)</li>
+					<li>Matejki (Skarszewska)</li>	
+					<li>Skarszewska</li>
+					<li>Kapliczna</li>
+					<li>Wojska Polskiego (Młyńska)</li>
+					<li>Galeria Wybickiego</li>
+					<li>Szopińskiego</li>
+					<li>Kartuska</li>
+					<li>Heykego</li>
+					<li>Szkolna("Czwórka")</li>
+					<li>Marchewicza(Bolewskiej)</li>
+					<li>Marchewicza(Rogali)-Bloki</li>
+					<li>Rogali</li>
+					<li>Strzelecka(PZU)</li>
+					<li>Sikorskiego(Komenda Policji)</li>
+					<li>Skłodowskiej(Różana-Przychodnia)</li>
+					<li>Skłodowskiej(Konopnickiej-"Szóstka")</li>
+					<li>Skłodowskiej(Szydlice-Delikatesy)</li>
+					<li>Małcużyńskiego</li>
+					<li class="main_stop">Szpital</li>
+				</ul>
+			</div>
+		</div>
+		<div id="line2sidenav" class="sidenav_2">
+			<a href="javascript:void(0)" class="closebtn" onclick="closeNav2()">&times;</a>
+			<div class="line_plate">
+				<h4 class="line_name">Linia nr 2</h4>
+			</div>
+			<div class="route">
+				<img src="img/linia2a.png" alt="mapa trasy lini 1">
+				<ul class="sidenav">
+					<li class="main_stop">Towarowa</li>
+					<li>Przemysłowa II/Rolnicza</li>
+					<li>W.Stwosza(Towarowa)</li>
+					<li>W.Stwosza(Michałowicza)</li>
+					<li>W.Stwosza(Tatarkiewicza)</li>
+					<li>Matejki(Kossaka)</li>
+					<li>Dworcowa (Michałowskiego/Fałata)</li>
+					<li class="main_stop">Dworzec PKP</li>
+				</ul>
+				<p>Uwaga! Od 1.09.2019 linia nr 2 nie kursuje<br>na odcinku Szpital - Dworzec PKP.</p>
+			</div>
+		</div>
+		<div id="line3sidenav" class="sidenav_3">
+			<a href="javascript:void(0)" class="closebtn" onclick="closeNav3()">&times;</a>
+			<div class="line_plate">
+				<h4 class="line_name">Linia nr 3</h4>
+			</div>
+			<div class="route">
+				<img src="img/linia3a.png" alt="mapa trasy lini 1">
+				<ul class="sidenav">
+					<li class="main_stop">Dworzec PKP</li>
+					<li>Dworcowa (Sędzickiego)</li>
+					<li>Dworcowa (3 Maja)</li>
+					<li>Młyńska/Galeria Wybickiego</li>
+					<li>8 Marca(Szkoła Jedynka)</li>
+					<li>Staszica</li>
+					<li>Skłodowskiej(Konopnickiej-"Szóstka")</li>
+					<li>Skłodowskiej(Szydlice-Delikatesy)</li>
+					<li>Małcużyńskiego</li>
+					<li class="main_stop">Szpital</li>
+				</ul>
+			</div>
+		</div>
+		
+		<script type="text/javascript" src="js/data.js"></script>
+		<script type="text/javascript" src="js/script.js"></script>
+	</body>
 </html>
