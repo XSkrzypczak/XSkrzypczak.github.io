@@ -256,7 +256,7 @@ body .whole {
           justify-content: center;
 }
 
-body .whole .check_all_button {
+body .whole button {
   background-color: transparent;
   border: 2px solid #ffff66;
   color: #ffff66;
@@ -637,6 +637,12 @@ body footer .wytvornia_logo {
   content: "";
   display: table;
   clear: both;
+}
+.line_img{
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  width: 95%;
 }
 
 /* Responsive layout - makes the three columns stack on top of each other instead of next to each other */

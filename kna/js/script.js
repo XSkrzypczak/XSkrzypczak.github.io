@@ -1,14 +1,17 @@
-const hn = now.getHours();
-const mn = now.getMinutes();
-const day = now.getDay();
 var selection = document.getElementById('selection');
 var line = document.getElementById('line');
 var direction = document.getElementById('direction');
 var checkBus = document.getElementById('check_bus');
 var period = document.getElementById('period');
 var checkWholeButton = document.getElementById('check_whole');
+var checkLineButton = document.getElementById('check_line');
 var timetableModal = document.getElementById('timetable_modal');
 var timetableContent = document.getElementById('timetable_content');
+var lineModal = document.getElementById('line_modal');
+var closeLineBtn = document.getElementById('close_line')
+var lineImg = document.getElementById('line_img');
+var resultDiv = document.getElementById('result');
+var wholeTimetable = document.getElementById('whole_timetable')
 var stopsWithoutLine1 = ["maja","dworcowa","staszica","marca","kossaka","tatarkiewicza",
     "michalowicza","stwoszatowarowa","przemyslowa","towarowa","rolnicza"];
 var stopsWithoutLine2 = ["maja","dworcowa","staszica","marca","szpital","malcuzynskiego",
@@ -24,6 +27,8 @@ var stopsWithoutPkp = ["pkp", "rolnicza", "towarowa"];
 var listOfStopsWithoutBus = [stopsWithoutLine1,stopsWithoutLine2,stopsWithoutLine3];
 line.style.visibility = "hidden";
 direction.style.visibility = "hidden";
+resultDiv.style.visibility = "hidden";
+wholeTimetable.style.visibility = "hidden";
 
 
 function disableSelection() {
@@ -91,7 +96,6 @@ function getClosestBus() {
     checkAllButton[i].remove();
   }
   if(busStop == undefined){
-    
   } else {
 
     //dodac pokazywanie headeroiw
@@ -110,7 +114,6 @@ function getClosestBus() {
           if(day == 6 || day == 7) {
             busStop = window[selection.value + line.value + direction.value + "Dif"];
           }
-          i = 0;
       } 
     }
     return i;
@@ -192,7 +195,6 @@ function difPeriod() {
 
 function checkWhole() {
   var closeModal = document.getElementById('close_modal');
-
   timetableModal.style.display = "block";
   allBusses();
   difPeriod();
@@ -205,6 +207,7 @@ function closeWindow() {
   var lines = bussesList.getElementsByClassName('lines');
   var description = bussesList.getElementsByClassName('description');
   timetableModal.style.display = "none";
+  
   console.log(hours);
   for (var i = hours.length; i--; ) {
     hours[i].remove();
@@ -216,12 +219,23 @@ function closeWindow() {
     description[i].remove();
   }
 }
+function showLineImg(){
+  lineModal.style.display = "block";
+  closeLineBtn.addEventListener('click', closeLine);
+  
+}
+function closeLine(){
+  lineModal.style.display = "none";
+}
 
 function bus() {
   
 }
 
 function busStopChanged() {
+  hn = now.getHours();
+  mn = now.getMinutes();
+  day = now.getDay();
 
   if(selection.value != "null" && direction.value != "null"){
     var busStop = window[selection.value + line.value + direction.value];
@@ -230,55 +244,70 @@ function busStopChanged() {
     var yourBus = document.getElementById('your_bus');
     var nextBus = document.getElementById('next_bus');
     var wholeTimetable = document.getElementById('whole_timetable');
-    yourBus.style.visibility = "hidden"
+    resultDiv.style.visibility = "hidden"
     i = getClosestBus();
     //najblizszy autobus
+    console.log(i);
     var date = new Date("February 23 2018 " + busStop[i]);
     var ht = date.getHours();
     var mt = date.getMinutes(); 
     
-    if (mt < 10) {
-    yourBus.style.visibility = "visible"
-      yourBus.innerHTML = ht + ':' + '0' + mt;
-    } 
-    else {
-    yourBus.style.visibility = "visible"
-      yourBus.innerHTML = ht + ':' + mt;
+    if(date == "Invalid Date"){
+      yourBus.innerHTML = "Jutro";
+    }
+    else{
+      var ht = date.getHours();
+      var mt = date.getMinutes(); 
+    
+      if (mt < 10) {
+        yourBus.innerHTML = ht + ':' + '0' + mt;
+      }  
+      else {
+        yourBus.innerHTML = ht + ':' + mt;
+      }
+    }
     }
     //poprzedni
     var date = new Date("February 23 2018 " + busStop[i-1]);
-    var ht = date.getHours();
-    var mt = date.getMinutes(); 
+    if(date == "Invalid Date"){
+      previousBus.innerHTML = "Wczoraj";
+    }
+    else{
+      var ht = date.getHours();
+      var mt = date.getMinutes(); 
     
-    if (mt < 10) {
-    previousBus.style.visibility = "visible"
-      previousBus.innerHTML = ht + ':' + '0' + mt;
-    } 
-    else {
-    previousBus.style.visibility = "visible"
-      previousBus.innerHTML = ht + ':' + mt;
+      if (mt < 10) {
+        previousBus.innerHTML = ht + ':' + '0' + mt;
+      }  
+      else {
+        previousBus.innerHTML = ht + ':' + mt;
+      }
     }
     //nastepny
     var date = new Date("February 23 2018 " + busStop[i+1]);
-    var ht = date.getHours();
-    var mt = date.getMinutes(); 
+    if(date == "Invalid Date"){
+      nextBus.innerHTML = "Jutro";
+    }
+    else{
+      var ht = date.getHours();
+      var mt = date.getMinutes(); 
     
-    if (mt < 10) {
-    nextBus.style.visibility = "visible"
-      nextBus.innerHTML = ht + ':' + '0' + mt;
-    } 
-    else {
-    nextBus.style.visibility = "visible"
-      nextBus.innerHTML = ht + ':' + mt;
+      if (mt < 10) {
+        nextBus.innerHTML = ht + ':' + '0' + mt;
+      }  
+      else {
+        nextBus.innerHTML = ht + ':' + mt;
+      }
     }
-
-    }
+    resultDiv.style.visibility = "visible";
+    wholeTimetable.style.visibility = "visible";
 }
 selection.addEventListener('change', disableSelection);
 selection.addEventListener('change', busStopChanged);
 line.addEventListener('change', busStopChanged);
 direction.addEventListener('change', busStopChanged);
 checkWholeButton.addEventListener('click', checkWhole);
+checkLineButton.addEventListener('click', showLineImg);
 
 /*
 function openNav() {
